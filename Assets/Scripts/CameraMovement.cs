@@ -7,8 +7,8 @@ public class CameraMovement : MonoBehaviour
     public Transform Target;
     public float Smoothing = 0.6f;
 
-    public Vector2 MaxPosition;
-    public Vector2 MinPosition;
+    public Vector3 MaxPosition;
+    public Vector3 MinPosition;
 
 	// Use this for initialization
 	void Start ()
