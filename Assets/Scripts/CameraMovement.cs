@@ -19,6 +19,7 @@ public class CameraMovement : MonoBehaviour
 	// Update is called once per frame
 	void LateUpdate ()
     {
+        //Forces camera to follow player.
         if (transform.position != Target.position)
         {
             Vector3 targetPosition = new Vector3(Target.position.x, Target.position.y, transform.position.z);
