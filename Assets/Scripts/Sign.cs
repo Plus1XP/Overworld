@@ -19,7 +19,7 @@ public class Sign : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isPlayerInRange)
+        if (Input.GetButtonDown("Jump") && isPlayerInRange)
         {
             if(DialogueBox.activeInHierarchy)
             {
