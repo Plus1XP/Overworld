@@ -7,7 +7,7 @@ public class RoomMovement : MonoBehaviour
 {
     public Vector3 CameraChange;
     public Vector3 PlayerChange;
-    public bool NeedText;
+    public bool isPlaceNameActive;
     public string PlaceName;
     public GameObject text;
     public Text PlaceText;
@@ -36,7 +36,7 @@ public class RoomMovement : MonoBehaviour
             collision.transform.position += PlayerChange;
 
             //Show place name on entering new area
-            if (NeedText)
+            if (isPlaceNameActive)
             {
                 StartCoroutine(placeNameCo());
             }
