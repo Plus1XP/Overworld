@@ -19,12 +19,16 @@ public class Sign : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        // To interact with a sign the player must be in range and pressing the "Jump" action key
         if (Input.GetButtonDown("Jump") && isPlayerInRange)
         {
-            if(DialogueBox.activeInHierarchy)
+            // If dialogue box is active this will deactivate it (hidden)
+            if (DialogueBox.activeInHierarchy)
             {
                 DialogueBox.SetActive(false);
             }
+
+            // If dialogue is not active (hidden) this will make it active and set the text via unity
             else
             {
                 DialogueBox.SetActive(true);
@@ -35,6 +39,7 @@ public class Sign : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // Checks if player is in range (inside the collision box) and sets the bool to true
         if (collision.CompareTag("Player"))
         {
             isPlayerInRange = true;
@@ -45,6 +50,7 @@ public class Sign : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            // Checks if player is out of range and deactivates sign text
             isPlayerInRange = false;
             DialogueBox.SetActive(false);
         }
