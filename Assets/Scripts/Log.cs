@@ -9,9 +9,13 @@ public class Log : Enemy
     public float AttackRadius;
     public Transform HomePosition;
 
+    private Rigidbody2D myRigidbody;
+
 	// Use this for initialization
 	void Start ()
     {
+        myRigidbody = GetComponent<Rigidbody2D>();
+
         // Find the location, scale, rotation & position of the object tagged with "Player"
         target = GameObject.FindWithTag("Player").transform;
 	}
@@ -27,7 +31,8 @@ public class Log : Enemy
         // Finds the distance from the player to the log
         if (Vector3.Distance(target.position, transform.position) <= ChaseRadius && Vector2.Distance(target.position, transform.position) > AttackRadius)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target.position, MoveSpeed * Time.deltaTime);
+            Vector3 temp = Vector3.MoveTowards(transform.position, target.position, MoveSpeed * Time.deltaTime);
+            myRigidbody.MovePosition(temp);
         }
     }
 }
