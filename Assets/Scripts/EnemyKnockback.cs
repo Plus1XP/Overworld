@@ -17,8 +17,11 @@ public class EnemyKnockback : MonoBehaviour
             // Checks if enemy has a rigidbody
             if (Enemy != null)
             {
+                Enemy.GetComponent<Enemy>().CurrentState = EnemyState.stagger;
+
                 // Disable kinematic so the objects movement is handle by the phsyics system (allows player to move the object)
                 //Enemy.isKinematic = false;
+
                 Vector2 difference = Enemy.transform.position - transform.position;
                 
                 // Normailizing the vector so it has a length of 1 so it doesnt move to fast
@@ -39,6 +42,8 @@ public class EnemyKnockback : MonoBehaviour
 
             // Stops enemy from moving by resetting velocity
             enemy.velocity = Vector2.zero;
+
+            enemy.GetComponent<Enemy>().CurrentState = EnemyState.idle;
 
             // Enable kinematic so the movement is handled by code (stops player moving the object)
             //enemy.isKinematic = true;
