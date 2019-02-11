@@ -18,15 +18,23 @@ public class Enemy : MonoBehaviour
     public int BaseAttack;
     public float MoveSpeed;
 
-	// Use this for initialization
-	void Start ()
+    public void Knock(Rigidbody2D enemy, float knockbackTime)
     {
-		
-	}
-	
-	// Update is called once per frame
-	void Update ()
+        StartCoroutine(KnockCo(enemy, knockbackTime));
+    }
+
+    // Coroutine checks the enemy isnt dead then stops the enemy from moving after a set amount of time
+    private IEnumerator KnockCo(Rigidbody2D myRigidbody, float knockbackTime)
     {
-		
-	}
+        // Checks the enemy isnt dead
+        if (myRigidbody != null)
+        {
+            yield return new WaitForSeconds(knockbackTime);
+
+            // Stops enemy from moving by resetting velocity
+            myRigidbody.velocity = Vector2.zero;
+            CurrentState = EnemyState.idle;
+            //myRigidbody.velocity = Vector2.zero;
+        }
+    }
 }

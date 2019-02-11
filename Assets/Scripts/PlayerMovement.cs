@@ -4,9 +4,11 @@ using UnityEngine;
 
 public enum PlayerState
 {
+    idle,
     walk,
     attack,
-    interact
+    interact,
+    stagger
 }
 
 public class PlayerMovement : MonoBehaviour
@@ -42,13 +44,13 @@ public class PlayerMovement : MonoBehaviour
         playerMovement.y = Input.GetAxisRaw("Vertical");
 
         // Checks that the player is not already attacking and that the Fire1 button is pressed
-        if (Input.GetButtonDown("Fire1") && CurrentState != PlayerState.attack)
+        if (Input.GetButtonDown("Fire1") && CurrentState != PlayerState.attack && CurrentState != PlayerState.stagger)
         {
             StartCoroutine(AttackCo());
         }
 
         // If the player is not attacking (walk state) check if there is a change in player position
-        else if (CurrentState == PlayerState.walk)
+        else if (CurrentState == PlayerState.walk || CurrentState == PlayerState.idle)
         {
             UpdateAnimationAndMove();
         }
@@ -97,6 +99,26 @@ public class PlayerMovement : MonoBehaviour
         // playerMovement is the change of the player position, which is too slow each frame 
         // It is * by playerSpeed variable * the time that has passed since the previous frame
         myRigidbody.MovePosition(transform.position + playerMovement * PlayerSpeed * Time.deltaTime);
+    }
+
+    public void Knock(float knockbacktime)
+    {
+        StartCoroutine(KnockCo(knockbacktime));
+    }
+
+    // Coroutine checks the enemy isnt dead then stops the enemy from moving after a set amount of time
+    private IEnumerator KnockCo(float knockbackTime)
+    {
+        // Checks the enemy isnt dead
+        if (myRigidbody != null)
+        {
+            yield return new WaitForSeconds(knockbackTime);
+
+            // Stops enemy from moving by resetting velocity
+            myRigidbody.velocity = Vector2.zero;
+            CurrentState = PlayerState.idle;
+            //myRigidbody.velocity = Vector2.zero;
+        }
     }
 }
 
