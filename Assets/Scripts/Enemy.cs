@@ -13,14 +13,31 @@ public enum EnemyState
 public class Enemy : MonoBehaviour
 {
     public EnemyState CurrentState;
-    public int Health;
+    public FloatValue MaxHealth;
+    public float Health;
     public string EnemyName;
     public int BaseAttack;
     public float MoveSpeed;
 
-    public void Knock(Rigidbody2D enemy, float knockbackTime)
+    private void Awake()
+    {
+        Health = MaxHealth.InitialValue;
+    }
+
+    private void takeDamage(float damage)
+    {
+        Health -= damage;
+        if (Health <= 0)
+        {
+            // Set game object to false hides object rather than destroying object which calls the garbage collector 
+            this.gameObject.SetActive(false);
+        }
+    }
+
+    public void Knock(Rigidbody2D enemy, float knockbackTime, float damage)
     {
         StartCoroutine(KnockCo(enemy, knockbackTime));
+        takeDamage(damage);
     }
 
     // Coroutine checks the enemy isnt dead then stops the enemy from moving after a set amount of time

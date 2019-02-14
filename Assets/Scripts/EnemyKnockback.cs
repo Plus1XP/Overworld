@@ -6,6 +6,7 @@ public class EnemyKnockback : MonoBehaviour
 {
     public float KnockbackForce;
     public float KnockbackTime;
+    public float Damage;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -29,10 +30,12 @@ public class EnemyKnockback : MonoBehaviour
                 difference = difference.normalized * KnockbackForce;
                 Hit.AddForce(difference, ForceMode2D.Impulse);
 
-                if (collision.gameObject.CompareTag("Enemy"))
+                // && collision.isTrigger is added because there is two colliders on the enemey.
+                // It should be a child object so it doesnt have the enemy tag.
+                if (collision.gameObject.CompareTag("Enemy") && collision.isTrigger)
                 {
                     Hit.GetComponent<Enemy>().CurrentState = EnemyState.stagger;
-                    collision.GetComponent<Enemy>().Knock(Hit, KnockbackTime);
+                    collision.GetComponent<Enemy>().Knock(Hit, KnockbackTime, Damage);
                 }
                 if (collision.gameObject.CompareTag("Player"))
                 {
