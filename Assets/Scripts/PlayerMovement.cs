@@ -16,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     public PlayerState CurrentState;
 
     public float PlayerSpeed = 4;
+    public FloatValue CurrentHealth;
+    public Signal PlayerHealthSignal;
 
     private Rigidbody2D myRigidbody;
     private Vector3 playerMovement;
@@ -101,9 +103,15 @@ public class PlayerMovement : MonoBehaviour
         myRigidbody.MovePosition(transform.position + playerMovement * PlayerSpeed * Time.deltaTime);
     }
 
-    public void Knock(float knockbacktime)
+    public void Knock(float knockbacktime, float damage)
     {
-        StartCoroutine(KnockCo(knockbacktime));
+        CurrentHealth.InitialValue -= damage;
+        if (CurrentHealth.InitialValue > 0)
+        {
+            // Sends signal to subscribers that the player got hit and health should be adjusted accordingly.
+            PlayerHealthSignal.Raise();
+            StartCoroutine(KnockCo(knockbacktime));
+        }        
     }
 
     // Coroutine checks the enemy isnt dead then stops the enemy from moving after a set amount of time

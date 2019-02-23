@@ -39,8 +39,12 @@ public class EnemyKnockback : MonoBehaviour
                 }
                 if (collision.gameObject.CompareTag("Player"))
                 {
-                    Hit.GetComponent<PlayerMovement>().CurrentState = PlayerState.stagger;
-                    collision.GetComponent<PlayerMovement>().Knock(KnockbackTime);
+                    // If player is not in stagger state (been hit) then this will put player in that state and add damage.
+                    if (collision.GetComponent<PlayerMovement>().CurrentState != PlayerState.stagger)
+                    {
+                        Hit.GetComponent<PlayerMovement>().CurrentState = PlayerState.stagger;
+                        collision.GetComponent<PlayerMovement>().Knock(KnockbackTime, Damage);
+                    }                    
                 }
             }
         }
