@@ -105,13 +105,17 @@ public class PlayerMovement : MonoBehaviour
 
     public void Knock(float knockbacktime, float damage)
     {
-        CurrentHealth.InitialValue -= damage;
-        if (CurrentHealth.InitialValue > 0)
+        CurrentHealth.RuntimeValue -= damage;
+        if (CurrentHealth.RuntimeValue > 0)
         {
             // Sends signal to subscribers that the player got hit and health should be adjusted accordingly.
             PlayerHealthSignal.Raise();
             StartCoroutine(KnockCo(knockbacktime));
-        }        
+        }
+        else
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 
     // Coroutine checks the enemy isnt dead then stops the enemy from moving after a set amount of time
